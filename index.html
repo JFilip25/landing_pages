@@ -352,10 +352,10 @@
   /* Two doors */
   .doors-grid{
     display:grid;
-    grid-template-columns:1.15fr .85fr;
+    grid-template-columns:repeat(3, 1fr);
     gap:1.75rem;
   }
-  @media (max-width:860px){ .doors-grid{ grid-template-columns:1fr; } }
+  @media (max-width:960px){ .doors-grid{ grid-template-columns:1fr; } }
   .door{
     border-radius:26px;
     padding:2.6rem;
@@ -374,6 +374,13 @@
   }
   .door-h h3{ color:#fff; }
   .door-h p{ color:rgba(255,255,255,.78); }
+  .door-accent{
+    background:var(--clay);
+    color:#fff;
+    --shadow:0 24px 46px rgba(173,31,111,.35);
+  }
+  .door-accent h3{ color:#fff; }
+  .door-accent p{ color:rgba(255,255,255,.85); }
   .door-b{
     background:#fff;
     border:1px solid var(--line);
@@ -537,7 +544,7 @@
           <button type="button" data-set-lang="me">ME</button>
         </div>
 
-        <a class="btn btn-primary" href="https://ksimontenegro.openapply.com/" target="_blank" rel="noopener">
+        <a class="btn btn-primary" href="https://ksimontenegro.openapply.com/events/new?only=Tour" target="_blank" rel="noopener">
           <span data-i18n="nav.cta">Schedule a Tour</span><span class="arrow">→</span>
         </a>
       </nav>
@@ -557,7 +564,7 @@
           <h1 class="text-4xl md:text-5xl font-semibold mb-6" data-i18n="hero.headline">Raise a Global Leader. Ages 3 to 18.</h1>
           <p class="text-lg mb-8" style="color:var(--ink-soft); max-width:52ch;" data-i18n="hero.sub">KSI Montenegro is the only school in the country offering a complete IB Continuum education, from Early Years through to the Diploma Programme. Our international accreditation guarantees your child receives a world-class standard of education in an environment built for global citizens.</p>
           <div class="flex flex-wrap gap-4">
-            <a class="btn btn-primary" href="https://ksimontenegro.openapply.com/" target="_blank" rel="noopener">
+            <a class="btn btn-primary" href="https://ksimontenegro.openapply.com/events/new?only=Tour" target="_blank" rel="noopener">
               <span data-i18n="hero.cta1">Schedule a Private Campus Tour</span><span class="arrow">→</span>
             </a>
             <a class="btn btn-ghost" href="mailto:info@ksi-montenegro.com?subject=School%20Prospectus%20Request">
@@ -629,11 +636,17 @@
   <section class="py-8">
     <div class="max-w-6xl mx-auto px-6">
       <div class="doors-grid">
-        <a href="https://ksimontenegro.openapply.com/" target="_blank" rel="noopener" class="door door-h reveal"
-           onclick="window.location='https://ksimontenegro.openapply.com/'; return false;">
+        <a href="https://ksimontenegro.openapply.com/events/new?only=Tour" target="_blank" rel="noopener" class="door door-h reveal"
+           onclick="window.location='https://ksimontenegro.openapply.com/events/new?only=Tour'; return false;">
           <h3 class="text-2xl mb-4" data-i18n="door1.title">Schedule Your Campus Visit</h3>
           <p class="mb-6" data-i18n="door1.body">See the classrooms, meet our teachers, and feel the community for yourself. There is no better way to know if KSI Montenegro is right for your child.</p>
           <span class="btn btn-light"><span data-i18n="door1.cta">Book a Tour</span><span class="arrow">→</span></span>
+        </a>
+        <a href="https://ksimontenegro.openapply.com/roi" target="_blank" rel="noopener" class="door door-accent reveal"
+           onclick="window.location='https://ksimontenegro.openapply.com/roi'; return false;">
+          <h3 class="text-2xl mb-4" data-i18n="apply.title">Ready to Enrol Your Child?</h3>
+          <p class="mb-6" data-i18n="apply.body">Complete the online admissions application and our enrolment team will be in touch to guide you through next steps.</p>
+          <span class="btn btn-light"><span data-i18n="apply.cta">Apply Now</span><span class="arrow">→</span></span>
         </a>
         <a href="mailto:info@ksi-montenegro.com" class="door door-b reveal"
            onclick="window.location='mailto:info@ksi-montenegro.com'; return false;">
@@ -742,7 +755,7 @@
         <a class="btn btn-primary" href="mailto:info@ksi-montenegro.com">
           <span data-i18n="cta.btn1">Connect with the Admissions Team</span>
         </a>
-        <a class="btn btn-light" href="https://ksimontenegro.openapply.com/" target="_blank" rel="noopener">
+        <a class="btn btn-light" href="https://ksimontenegro.openapply.com/events/new?only=Tour" target="_blank" rel="noopener">
           <span data-i18n="cta.btn2">Schedule the Tour</span><span class="arrow">→</span>
         </a>
       </div>
@@ -802,7 +815,92 @@
   // Footer year
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  // Language switch (ME strings are placeholders pending official translation)
+  // Language switch
+  const meOverrides = {
+    'nav.brand': 'KSI Montenegro',
+    'nav.home': 'Početna',
+    'nav.continuum': 'IB program',
+    'nav.why': 'Zašto KSI',
+    'nav.results': 'Rezultati',
+    'nav.stories': 'Iskustva',
+    'nav.contact': 'Upis',
+    'nav.cta': 'Zakažite posjetu',
+
+    'hero.headline': 'Obrazujemo buduće lidere. Od 3. do 18. godine.',
+    'hero.sub': 'KSI Montenegro je jedina škola u Crnoj Gori koja nudi kompletan IB program, od vrtića do mature. Naša prestižna akreditacija garantuje da vaše dijete dobija obrazovanje po najvišim svjetskim standardima, na svakom koraku svog razvoja.',
+    'hero.cta1': 'Zakažite privatnu posjetu kampusu',
+    'hero.cta2': 'Preuzmite školski prospekt',
+    'hero.trust1': 'Akreditovana IB World škola',
+    'hero.trust2': '100% upis na univerzitete',
+    'hero.trust3': 'Porto Montenegro, Tivat',
+    'hero.badge': 'Generacija maturanata · Uzrast 3–18',
+
+    'signature.quote': 'Obrazujemo zajednicu globalnih građana — pružajući svakom djetetu priliku da postane sve što želi da bude.',
+    'signature.cite': '— Filozofija KSI Montenegro',
+
+    'continuum.heading': 'Jedinstven, neprekidan obrazovni put za vaše dijete',
+    'continuum.intro': 'U KSI Montenegru, svaka faza obrazovanja prirodno se nastavlja na prethodnu. To znači da dijete ne prolazi kroz stres promjene sistema sa svakom novom školskom godinom. Znanje, samopouzdanje i karakter gradimo dosljedno, od prvog dana u vrtiću pa sve do dobijanja diplome.',
+    'continuum.card1.tag': 'Predškolski uzrast i osnovna škola (3–11 godina)',
+    'continuum.card1.title': 'PYP — Program primarnih godina',
+    'continuum.card1.body': 'Djeca su prirodno radoznala, a naš cilj je da tu iskru pravilno usmjerimo. Kroz istraživački rad i šest globalnih tema, vaše dijete od malih nogu razvija kritičko mišljenje, kreativnost i istinsku ljubav prema učenju koja ostaje za cijeli život.',
+    'continuum.card2.tag': 'Srednja škola (11–16 godina)',
+    'continuum.card2.title': 'MYP — Program srednjih godina',
+    'continuum.card2.body': 'Ovo je faza u kojoj mladi počinju da traže smisao u onome što uče, a MYP program im povezuje teoriju sa realnim svijetom. Kritičko razmišljanje postaje svakodnevna navika, a učenici polako prepoznaju svoje talente i profile u koje žele da izrastu.',
+    'continuum.card3.tag': 'Preuniverzitetski program (16–18 godina)',
+    'continuum.card3.title': 'IB Diploma Programme',
+    'continuum.card3.body': 'IB diploma je zlatni standard u obrazovanju i međunarodno priznata kvalifikacija koja širom otvara vrata prestižnih svjetskih univerziteta. Naši maturanti upisuju fakultete u Italiji, Francuskoj, Španiji, Holandiji i SAD-u — ne slučajno, već zato što su akademski i životno spremniji od svojih vršnjaka.',
+
+    'door1.title': 'Zakažite posjetu kampusu',
+    'door1.body': 'Pogledajte učionice, upoznajte naše nastavnike i osjetite zajednicu iz prve ruke. Nema boljeg načina da saznate da li je KSI Montenegro pravi izbor za vaše dijete.',
+    'door1.cta': 'Zakažite posjetu',
+
+    'apply.title': 'Spremni da upišete svoje dijete?',
+    'apply.body': 'Popunite online prijavu za upis i naš tim za upis će vas kontaktirati u najkraćem roku.',
+    'apply.cta': 'Prijavite se sada',
+
+    'door2.title': 'Razgovarajte sa timom za upis',
+    'door2.body': 'Imate pitanja o IB programu, školarini ili proceduri upisa? Pošaljite nam poruku i odgovorićemo u roku od 24 sata.',
+    'door2.cta': 'Pošaljite email',
+
+    'why.heading': 'Više od ocjene. Priprema za stvaran život.',
+    'why.card1.title': 'Globalni građani',
+    'why.card1.body': 'Vaše dijete raste i uči u okruženju vršnjaka iz preko 30 zemalja svijeta. To je neprocjenjivo iskustvo koje se ne uči iz udžbenika — ono se živi svakog dana kroz interakciju, igru i timski rad.',
+    'why.card2.title': 'Cjelovit razvoj ličnosti',
+    'why.card2.body': 'Kod nas obrazovanje ne prestaje sa zvonom za kraj časa. Sport, umjetnost i vannastavne aktivnosti nijesu sporedna stvar, već stubovi našeg programa. Vjerujemo da isključivo akademski fokus nije dovoljan za kompletan razvoj djeteta.',
+    'why.card3.title': 'Kampus svjetske klase',
+    'why.card3.body': 'Savremene laboratorije, kreativni studiji i vrhunski sportski tereni dizajnirani su tako da podrže moderan i interaktivan pristup nastavi. S obzirom na to da djeca u školi provode osam sati dnevno, ambijent u kojem borave važan je koliko i ono što uče.',
+    'why.card4.title': 'Jedina CIS akreditovana škola u državi',
+    'why.card4.body': 'CIS akreditacija (Council of International Schools) je zvanična potvrda nezavisnih međunarodnih eksperata da KSI Montenegro ispunjava najstrože svjetske standarde u nastavi, upravljanju i brizi o učenicima. Nijedna druga škola u Crnoj Gori ne posjeduje ovo priznanje.',
+
+    'teaser.eyebrow': 'Život u KSI Montenegru',
+    'teaser.title': 'Jedan kampus. Trideset zemalja. Jedna zajednica.',
+    'teaser.handw': 'Nije samo škola. Drugi dom.',
+    'teaser.body': 'Naš kampus u Porto Montenegru, Tivat, okuplja djecu i nastavnike iz svih krajeva svijeta. Pitajte bilo kojeg roditelja šta ih je najviše iznenadilo, i većina će reći isto: koliko brzo se njihovo dijete osjećalo kao dio zajednice.',
+
+    'results.heading': 'Uspjeh koji se može izmjeriti',
+    'results.stat1': 'Učenika koji su aplicirali dobilo je ponude za upis na željene univerzitete',
+    'results.stat2': 'Nacionalnosti koje čine našu bogatu i raznovrsnu školsku zajednicu',
+    'results.stat3': 'Godina — kompletan, neprekidan IB program pod jednim krovom',
+    'results.stat4num': 'Jedina',
+    'results.stat4': 'CIS akreditovana i IB Continuum škola u Crnoj Gori',
+
+    'stories.heading': 'Porodice koje su nam poklonile povjerenje. Djeca koja ostvaruju uspjehe.',
+    'stories.quote1': '"Preseljenje u novu zemlju je uvijek stresno, posebno za djecu. Međutim, u KSI Montenegru smo od prvog dana osjetili da naš sin nije samo broj u dnevniku, već cijenjeni član zajednice. Danas, dvije godine kasnije, sigurni smo da nismo mogli izabrati bolje mjesto za njegov razvoj."',
+    'stories.cite1': '— Porodica M., roditelji učenika u MYP programu',
+    'stories.quote2': '"Kao lokalna porodica, imali smo određenu dozu skeptičnosti prema međunarodnom obrazovnom sistemu. Nakon tri godine u KSI Montenegru, naša ćerka tečno govori tri jezika, razmišlja potpuno samostalno i već je upisala fakultet u Italiji. Sve naše sumnje su nestale."',
+    'stories.cite2': '— Porodica P., roditelji učenice u IB DP programu',
+
+    'cta.heading': 'Budućnost vašeg djeteta počinje jednom odlukom.',
+    'cta.sub': 'Upis za školsku godinu 2026/2027. je zvanično otvoren. Broj mjesta po razredima je ograničen.',
+    'cta.btn1': 'Kontaktirajte tim za upis',
+    'cta.btn2': 'Zakažite posjetu',
+    'cta.note': 'Odgovaramo u roku od 24 sata. Bez obaveza — samo razgovor.',
+    'cta.limited.title': 'Broj mjesta je ograničen',
+    'cta.limited.body': 'Kako naša zajednica raste, slobodna mjesta se popunjavaju brzo svake godine. Ako razmišljate o upisu djeteta za narednu školsku godinu, sada je pravo vrijeme da zakažete konsultacije i posjetu kampusu.',
+
+    'footer.rights': 'Sva prava zadržana.'
+  };
+
   const translations = {
     en: {},
     me: {}
@@ -810,7 +908,7 @@
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
     translations.en[key] = el.innerHTML;
-    translations.me[key] = el.innerHTML; // placeholder until Montenegrin copy is supplied
+    translations.me[key] = meOverrides[key] !== undefined ? meOverrides[key] : el.innerHTML;
   });
 
   function setLanguage(lang) {
