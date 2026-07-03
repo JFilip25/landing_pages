@@ -230,9 +230,9 @@
   .hero-visual{
     border-radius:28px;
     aspect-ratio:4/5;
-    background:
-      radial-gradient(circle at 30% 20%, rgba(255,255,255,.5), transparent 45%),
-      linear-gradient(160deg, var(--sage) 0%, var(--ink) 65%, var(--clay) 130%);
+    background-image:url('assets/hero-graduation.jpg');
+    background-size:cover;
+    background-position:center 28%;
     position:relative;
     box-shadow:0 30px 60px rgba(38,33,96,.25);
     overflow:hidden;
@@ -242,8 +242,8 @@
     position:absolute;
     inset:0;
     background-image:
-      radial-gradient(circle at 20% 80%, rgba(244,115,33,.35), transparent 40%),
-      radial-gradient(circle at 80% 30%, rgba(255,255,255,.25), transparent 35%);
+      linear-gradient(0deg, rgba(38,33,96,.65) 0%, rgba(38,33,96,0) 38%),
+      radial-gradient(circle at 80% 15%, rgba(244,115,33,.28), transparent 40%);
   }
   .hero-visual .badge{
     position:absolute;
@@ -566,8 +566,8 @@
           </div>
         </div>
 
-        <div class="reveal hero-visual" aria-hidden="true">
-          <span class="badge">IB World School · Ages 3–18</span>
+        <div class="reveal hero-visual bg-cover bg-center" role="img" aria-label="KSI Montenegro graduates celebrating on stage">
+          <span class="badge" data-i18n="hero.badge">IB Diploma Class · Ages 3–18</span>
         </div>
       </div>
     </div>
