@@ -465,10 +465,23 @@
     font-style:italic;
     font-size:1.15rem;
     font-weight:400;
-    margin:0 0 1.2rem;
+    margin:0 0 1.4rem;
     color:var(--ink);
   }
   .story-card cite{ font-weight:600; font-style:normal; color:var(--sage); font-size:.92rem; }
+  .story-attribution{
+    display:flex;
+    align-items:center;
+    gap:.9rem;
+  }
+  .story-avatar{
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    object-fit:cover;
+    flex-shrink:0;
+    box-shadow:0 4px 12px rgba(38,33,96,.18);
+  }
 
   /* CTA final */
   .cta-final{
@@ -734,11 +747,17 @@
       <div class="stories-grid">
         <div class="story-card reveal">
           <blockquote data-i18n="stories.quote1">"Relocating internationally is always stressful, especially for children. But from our very first day at KSI Montenegro, we felt that our son was not just another student. He was a valued member of a real community. Two years on, we could not have made a better choice for his development."</blockquote>
-          <cite data-i18n="stories.cite1">— The M. Family, parents of an MYP student</cite>
+          <div class="story-attribution">
+            <img class="story-avatar" src="assets/parent1.jpg" alt="Parent of an MYP student at KSI Montenegro">
+            <cite data-i18n="stories.cite1">— Parent of an MYP Student</cite>
+          </div>
         </div>
         <div class="story-card reveal">
-          <blockquote data-i18n="stories.quote2">"As a family that relocated here from abroad, we wanted an education that would keep our daughter's options open anywhere in the world. After three years at KSI Montenegro, she speaks three languages, thinks independently, and has been accepted to a university in Italy. This school delivered exactly what it promised."</blockquote>
-          <cite data-i18n="stories.cite2">— The K. Family, parents of an IB Diploma student</cite>
+          <blockquote data-i18n="stories.quote2">"As a family that relocated here from abroad, we wanted an education that would keep our daughter's options open anywhere in the world. After three years at KSI Montenegro, she speaks three languages, thinks independently, and has been accepted to a university in the UK. This school delivered exactly what it promised."</blockquote>
+          <div class="story-attribution">
+            <img class="story-avatar" src="assets/parent2.jpg" alt="Parent of an IB Diploma student at KSI Montenegro">
+            <cite data-i18n="stories.cite2">— Parent of an IB Diploma Student</cite>
+          </div>
         </div>
       </div>
       <!-- Note: replace initials with real family initials once written consent is confirmed. Add university logos below this section. -->
@@ -886,9 +905,9 @@
 
     'stories.heading': 'Porodice koje su nam poklonile povjerenje. Djeca koja ostvaruju uspjehe.',
     'stories.quote1': '"Preseljenje u novu zemlju je uvijek stresno, posebno za djecu. Međutim, u KSI Montenegru smo od prvog dana osjetili da naš sin nije samo broj u dnevniku, već cijenjeni član zajednice. Danas, dvije godine kasnije, sigurni smo da nismo mogli izabrati bolje mjesto za njegov razvoj."',
-    'stories.cite1': '— Porodica M., roditelji učenika u MYP programu',
-    'stories.quote2': '"Kao lokalna porodica, imali smo određenu dozu skeptičnosti prema međunarodnom obrazovnom sistemu. Nakon tri godine u KSI Montenegru, naša ćerka tečno govori tri jezika, razmišlja potpuno samostalno i već je upisala fakultet u Italiji. Sve naše sumnje su nestale."',
-    'stories.cite2': '— Porodica P., roditelji učenice u IB DP programu',
+    'stories.cite1': '— Roditelj učenika u MYP programu',
+    'stories.quote2': '"Kao lokalna porodica, imali smo određenu dozu skeptičnosti prema međunarodnom obrazovnom sistemu. Nakon tri godine u KSI Montenegru, naša ćerka tečno govori tri jezika, razmišlja potpuno samostalno i već je upisala fakultet u Velikoj Britaniji. Sve naše sumnje su nestale."',
+    'stories.cite2': '— Roditelj učenice u IB DP programu',
 
     'cta.heading': 'Budućnost vašeg djeteta počinje jednom odlukom.',
     'cta.sub': 'Upis za školsku godinu 2026/2027. je zvanično otvoren. Broj mjesta po razredima je ograničen.',
