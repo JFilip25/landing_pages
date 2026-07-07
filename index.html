@@ -1016,6 +1016,7 @@
             </div>
             <input type="text" name="email_address_check" value="" class="input--hidden" style="display:none">
             <input type="hidden" name="locale" value="en">
+            <input type="hidden" id="LANGUAGE" name="LANGUAGE" value="EN">
           </form>
         </div>
       </div>
@@ -1059,8 +1060,19 @@
   // Prospectus modal (Brevo form)
   const prospectusModal = document.getElementById('prospectusModal');
   let modalTriggerEl = null;
+
+  // Keep the form's hidden LANGUAGE field in sync with the page's current language,
+  // never from user input. Falls back to EN if the language state is missing/unrecognized.
+  function syncProspectusLanguageField() {
+    const langField = document.getElementById('LANGUAGE');
+    if (!langField) return;
+    const currentLang = document.documentElement.getAttribute('data-lang');
+    langField.value = currentLang === 'me' ? 'ME' : 'EN';
+  }
+
   function openModal(modal, triggerEl) {
     modalTriggerEl = triggerEl || null;
+    syncProspectusLanguageField();
     modal.classList.add('open');
     modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
@@ -1250,6 +1262,7 @@
       btn.classList.toggle('active', btn.getAttribute('data-set-lang') === lang);
     });
     localStorage.setItem('ksi-lang', lang);
+    syncProspectusLanguageField();
   }
 
   document.querySelectorAll('[data-set-lang]').forEach(btn => {
@@ -1258,6 +1271,7 @@
 
   const savedLang = localStorage.getItem('ksi-lang');
   if (savedLang === 'me') setLanguage('me');
+  syncProspectusLanguageField();
 </script>
 
 </body>
