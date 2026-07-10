@@ -1122,6 +1122,21 @@
     });
   });
 
+  // Prospectus conversion tracking: Brevo's form script posts this message on a
+  // successful submission, so this is the only reliable signal that the form
+  // actually completed (a CTA click just means the modal opened).
+  window.addEventListener('message', function (event) {
+    if (event.data && event.data.type === 'sib_form_success') {
+      if (typeof gtag === 'function') {
+        gtag('event', 'prospectus_request', {
+          method: 'brevo_form',
+          page_location: window.location.href,
+          language: document.documentElement.getAttribute('data-lang') || 'en'
+        });
+      }
+    }
+  }, false);
+
   // Scroll-reveal via IntersectionObserver
   const revealEls = document.querySelectorAll('.reveal');
   const io = new IntersectionObserver((entries) => {
