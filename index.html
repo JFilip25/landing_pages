@@ -1271,14 +1271,22 @@
       btn.classList.toggle('active', btn.getAttribute('data-set-lang') === lang);
     });
     localStorage.setItem('ksi-lang', lang);
+    history.replaceState(null, '', '#' + lang);
   }
 
   document.querySelectorAll('[data-set-lang]').forEach(btn => {
     btn.addEventListener('click', () => setLanguage(btn.getAttribute('data-set-lang')));
   });
 
+  // Shareable/ad links: https://tour.ksi-montenegro.com/#me or #en set the
+  // language directly on load, taking priority over any saved preference.
+  const hashLang = window.location.hash.replace('#', '');
   const savedLang = localStorage.getItem('ksi-lang');
-  if (savedLang === 'me') setLanguage('me');
+  if (hashLang === 'me' || hashLang === 'en') {
+    setLanguage(hashLang);
+  } else if (savedLang === 'me') {
+    setLanguage('me');
+  }
 </script>
 
 </body>
