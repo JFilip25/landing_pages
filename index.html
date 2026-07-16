@@ -156,6 +156,28 @@
     box-shadow:0 12px 26px rgba(0,0,0,.18);
   }
 
+  .mobile-floating-cta{
+    display:none;
+    position:fixed;
+    left:20px;
+    right:20px;
+    bottom:18px;
+    z-index:70;
+    justify-content:center;
+    opacity:0;
+    transform:translateY(16px);
+    transition:opacity .35s ease, transform .35s ease;
+    pointer-events:none;
+  }
+  @media (max-width:860px){
+    .mobile-floating-cta{ display:flex; }
+    .mobile-floating-cta.show{
+      opacity:1;
+      transform:translateY(0);
+      pointer-events:auto;
+    }
+  }
+
   .arrow{ display:inline-block; transition:transform .25s ease; }
   .btn:hover .arrow{ transform:translateX(4px); }
 
@@ -1001,6 +1023,11 @@
   </div>
 </footer>
 
+<!-- Mobile-only floating "Schedule a Tour" CTA, fades in once the hero is scrolled past -->
+<a href="https://ksimontenegro.openapply.com/events/new?only=Tour" target="_blank" rel="noopener" class="btn btn-primary mobile-floating-cta" id="mobileFloatingCta" data-cta="mobile_floating_schedule_tour">
+  <span data-i18n="floatingCta.label">Schedule a Tour</span><span class="arrow">→</span>
+</a>
+
 <!-- Prospectus modal -->
 <div class="modal-overlay" id="prospectusModal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="prospectusModalTitle">
   <div class="modal-panel">
@@ -1163,6 +1190,19 @@
     });
   });
 
+  // Mobile floating "Schedule a Tour" CTA: fades in once the hero scrolls
+  // out of view, fades back out if the user scrolls back up to it.
+  const mobileFloatingCta = document.getElementById('mobileFloatingCta');
+  const heroSection = document.querySelector('.hero');
+  if (mobileFloatingCta && heroSection) {
+    const heroObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        mobileFloatingCta.classList.toggle('show', !entry.isIntersecting);
+      });
+    }, { threshold: 0 });
+    heroObserver.observe(heroSection);
+  }
+
   // Scroll-reveal via IntersectionObserver
   const revealEls = document.querySelectorAll('.reveal');
   const io = new IntersectionObserver((entries) => {
@@ -1188,6 +1228,7 @@
     'nav.stories': 'Iskustva',
     'nav.contact': 'Upis',
     'nav.cta': 'Zakažite posjetu',
+    'floatingCta.label': 'Zakažite Turu',
 
     'hero.headline': 'Obrazujemo buduće lidere. Od 3. do 18. godine.',
     'hero.sub': 'KSI Montenegro je jedina škola u Crnoj Gori koja nudi kompletan IB program, od vrtića do mature. Naša prestižna akreditacija garantuje da vaše dijete dobija obrazovanje po najvišim svjetskim standardima, na svakom koraku svog razvoja.',
