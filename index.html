@@ -248,9 +248,21 @@
     }
     .nav-links.open{ max-height:500px; padding:1rem 6vw 1.5rem; }
     .nav-links a.nav-link{ padding:.6rem 0; width:100%; border-bottom:1px solid var(--line); }
-    .nav-links .lang-switch{ margin:1rem 0; }
     .nav-cta-desktop{ display:none; }
     .burger{ display:block; }
+
+    /* Float the language switch top-right, independent of the collapsed
+       mobile menu, so it's reachable without opening the hamburger. */
+    .nav-links .lang-switch{
+      position:fixed;
+      top:14px;
+      right:60px;
+      margin:0;
+      z-index:60;
+      background:rgba(255,255,255,.92);
+      backdrop-filter:blur(8px);
+      box-shadow:0 6px 18px rgba(0,0,0,.14);
+    }
   }
 
   /* Hero */
