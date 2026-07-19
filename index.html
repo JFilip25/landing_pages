@@ -775,7 +775,7 @@
           <button type="button" data-set-lang="me">ME</button>
         </div>
 
-        <a class="btn btn-primary" href="https://ksimontenegro.openapply.com/events/new?only=Tour" target="_blank" rel="noopener" data-cta="nav_schedule_tour">
+        <a class="btn btn-primary" href="https://meet.brevo.com/ksimontenegro/private-tour-at-ksi-montenegro" target="_blank" rel="noopener" data-tour-cta data-cta="nav_schedule_tour">
           <span data-i18n="nav.cta">Schedule a Tour</span><span class="arrow">→</span>
         </a>
       </nav>
@@ -795,7 +795,7 @@
           <h1 class="text-4xl md:text-5xl font-semibold mb-6" data-i18n="hero.headline">Raise a Global Leader. Ages 3 to 18.</h1>
           <p class="text-lg mb-8" style="color:var(--ink-soft); max-width:52ch;" data-i18n="hero.sub">KSI Montenegro is the only school in the country offering a complete IB Continuum education, from Early Years through to the Diploma Programme. Our international accreditation guarantees your child receives a world-class standard of education in an environment built for global citizens.</p>
           <div class="flex flex-wrap gap-4">
-            <a class="btn btn-primary" href="https://ksimontenegro.openapply.com/events/new?only=Tour" target="_blank" rel="noopener" data-cta="hero_schedule_tour">
+            <a class="btn btn-primary" href="https://meet.brevo.com/ksimontenegro/private-tour-at-ksi-montenegro" target="_blank" rel="noopener" data-tour-cta data-cta="hero_schedule_tour">
               <span data-i18n="hero.cta1">Schedule a Private Campus Tour</span><span class="arrow">→</span>
             </a>
             <button type="button" class="btn btn-ghost" data-cta="hero_download_prospectus" data-open-modal="prospectus">
@@ -867,7 +867,7 @@
   <section class="py-8">
     <div class="max-w-6xl mx-auto px-6">
       <div class="doors-grid">
-        <a href="https://ksimontenegro.openapply.com/events/new?only=Tour" target="_blank" rel="noopener" class="door door-h reveal" data-cta="door_schedule_tour">
+        <a href="https://meet.brevo.com/ksimontenegro/private-tour-at-ksi-montenegro" target="_blank" rel="noopener" class="door door-h reveal" data-tour-cta data-cta="door_schedule_tour">
           <h3 class="text-2xl mb-4" data-i18n="door1.title">Schedule Your Campus Visit</h3>
           <p class="mb-6" data-i18n="door1.body">See the classrooms, meet our teachers, and feel the community for yourself. There is no better way to know if KSI Montenegro is right for your child.</p>
           <span class="btn btn-light"><span data-i18n="door1.cta">Book a Tour</span><span class="arrow">→</span></span>
@@ -989,7 +989,7 @@
         <a class="btn btn-primary" href="mailto:info@ksi-montenegro.com" data-cta="final_email_admissions">
           <span data-i18n="cta.btn1">Connect with the Admissions Team</span>
         </a>
-        <a class="btn btn-light" href="https://ksimontenegro.openapply.com/events/new?only=Tour" target="_blank" rel="noopener" data-cta="final_schedule_tour">
+        <a class="btn btn-light" href="https://meet.brevo.com/ksimontenegro/private-tour-at-ksi-montenegro" target="_blank" rel="noopener" data-tour-cta data-cta="final_schedule_tour">
           <span data-i18n="cta.btn2">Schedule the Tour</span><span class="arrow">→</span>
         </a>
       </div>
@@ -1024,7 +1024,7 @@
 </footer>
 
 <!-- Mobile-only floating "Schedule a Tour" CTA, fades in once the hero is scrolled past -->
-<a href="https://ksimontenegro.openapply.com/events/new?only=Tour" target="_blank" rel="noopener" class="btn btn-primary mobile-floating-cta" id="mobileFloatingCta" data-cta="mobile_floating_schedule_tour">
+<a href="https://meet.brevo.com/ksimontenegro/private-tour-at-ksi-montenegro" target="_blank" rel="noopener" class="btn btn-primary mobile-floating-cta" id="mobileFloatingCta" data-tour-cta data-cta="mobile_floating_schedule_tour">
   <span data-i18n="floatingCta.label">Schedule a Tour</span><span class="arrow">→</span>
 </a>
 
@@ -1170,7 +1170,8 @@
   document.querySelectorAll('[data-cta]').forEach(el => {
     const ctaId = el.getAttribute('data-cta');
     const isMailto = el.href && el.href.startsWith('mailto:');
-    if (!isMailto && el.href) {
+    // Tour CTAs are language-dependent; their href is managed by updateTourLinks().
+    if (!isMailto && el.href && !el.hasAttribute('data-tour-cta')) {
       try {
         const url = new URL(el.href);
         Object.entries(UTM_PARAMS).forEach(([k, v]) => url.searchParams.set(k, v));
@@ -1189,6 +1190,25 @@
       }
     });
   });
+
+  // Tour booking: point every tour CTA at the Brevo meeting link for the active
+  // language (EN vs ME), with the same UTM tagging as the other CTAs. Each Brevo
+  // booking is configured to redirect to its own success page on completion.
+  const TOUR_LINKS = {
+    en: 'https://meet.brevo.com/ksimontenegro/private-tour-at-ksi-montenegro',
+    me: 'https://meet.brevo.com/ksimontenegro/tura-u-ksi-montenegro'
+  };
+  function updateTourLinks(lang) {
+    const base = TOUR_LINKS[lang] || TOUR_LINKS.en;
+    document.querySelectorAll('[data-tour-cta]').forEach(el => {
+      try {
+        const url = new URL(base);
+        Object.entries(UTM_PARAMS).forEach(([k, v]) => url.searchParams.set(k, v));
+        url.searchParams.set('utm_content', el.getAttribute('data-cta') || 'schedule_tour');
+        el.href = url.toString();
+      } catch (e) { /* leave untouched */ }
+    });
+  }
 
   // Mobile floating "Schedule a Tour" CTA: fades in once the hero scrolls
   // out of view, fades back out if the user scrolls back up to it.
@@ -1332,6 +1352,7 @@
     document.querySelectorAll('[data-set-lang]').forEach(btn => {
       btn.classList.toggle('active', btn.getAttribute('data-set-lang') === lang);
     });
+    updateTourLinks(lang);
     localStorage.setItem('ksi-lang', lang);
     history.replaceState(null, '', '#' + lang);
   }
@@ -1348,6 +1369,8 @@
     setLanguage(hashLang);
   } else if (savedLang === 'me') {
     setLanguage('me');
+  } else {
+    updateTourLinks('en'); // default EN: wire tour links without forcing a hash
   }
 </script>
 
