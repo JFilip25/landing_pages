@@ -7,6 +7,13 @@
 <meta name="description" content="Vaša privatna posjeta kampusu KSI Montenegro je potvrđena.">
 <meta name="robots" content="noindex, follow">
 
+<!-- Break out of the Brevo iframe so tracking fires in the top-level GA4 session -->
+<script>
+if (window.top !== window.self) {
+  window.top.location.href = window.location.href; // reload this success page in the top window
+}
+</script>
+
 <!-- Meta Pixel Code -->
 <script>
 !function(f,b,e,v,n,t,s)
@@ -51,6 +58,7 @@ src="https://www.facebook.com/tr?id=1330731452509126&ev=PageView&noscript=1"
   gtag('event', 'tour_booked', { language: 'me', page_location: window.location.href });
   // Reusing the existing lead-form Google Ads conversion label. If you create a
   // dedicated "Tour booked" conversion action in Google Ads, swap the label here.
+  gtag('event', 'Booked_Tour_Brevo_Success_ME');
   gtag('event', 'conversion', { 'send_to': 'AW-17506972446/njh3CKDY980cEJ7m_JtB' });
 </script>
 
