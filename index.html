@@ -1392,5 +1392,44 @@ src="https://www.facebook.com/tr?id=1330731452509126&ev=PageView&noscript=1"
   }
 </script>
 
+<!-- Ad attribution capture: persist fbclid / UTM from the ad URL (first touch)
+     and inject them as hidden fields into the prospectus Brevo form, so they
+     reach the Brevo contact -> KSI CRM -> Meta Conversions API. Requires the
+     matching hidden fields (FBCLID, UTM_SOURCE, ...) to exist on the Brevo
+     form / as contact attributes. -->
+<script>
+(function () {
+  var KEYS = ["fbclid","gclid","utm_source","utm_medium","utm_campaign","utm_term","utm_content"];
+  function param(n){ try { return new URLSearchParams(location.search).get(n) || ""; } catch(e){ return ""; } }
+
+  var store = {};
+  try { store = JSON.parse(localStorage.getItem("ksi_attr") || "{}"); } catch (e) {}
+  KEYS.forEach(function (k) { var v = param(k); if (v) store[k] = v; });
+  if (!store.landing_page) store.landing_page = location.pathname + location.search;
+  try { localStorage.setItem("ksi_attr", JSON.stringify(store)); } catch (e) {}
+
+  function setField(form, name, val) {
+    if (!val) return;
+    var el = form.querySelector('[name="' + name + '"]');
+    if (!el) { el = document.createElement("input"); el.type = "hidden"; el.name = name; form.appendChild(el); }
+    el.value = val;
+  }
+  function populate() {
+    var form = document.getElementById("sib-form");
+    if (!form) return;
+    setField(form, "FBCLID", store.fbclid);
+    setField(form, "GCLID", store.gclid);
+    setField(form, "UTM_SOURCE", store.utm_source);
+    setField(form, "UTM_MEDIUM", store.utm_medium);
+    setField(form, "UTM_CAMPAIGN", store.utm_campaign);
+    setField(form, "UTM_TERM", store.utm_term);
+    setField(form, "UTM_CONTENT", store.utm_content);
+    setField(form, "LANDING_PAGE", store.landing_page);
+  }
+  if (document.readyState !== "loading") populate();
+  else document.addEventListener("DOMContentLoaded", populate);
+})();
+</script>
+
 </body>
 </html>
